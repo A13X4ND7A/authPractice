@@ -37,7 +37,7 @@ app.post('/register', async (req, res) => {
 	});
 	await user.save();
 	req.session.user_id = user._id;
-	res.redirect('/');
+	res.redirect('/secret');
 });
 
 app.get('/login', (req, res) => {
@@ -61,12 +61,16 @@ app.post('/login', async (req, res) => {
 	}
 });
 
+app.post('/logout', (req, res) => {
+	req.session.user_id = null;
+	res.redirect('/login');
+});
+
 app.get('/secret', (req, res) => {
 	if (!req.session.user_id) {
-		res.redirect('/login');
-	} else {
-		res.send('THIS IS A SECRET AND YOU CAN NOW SEE IT');
+		return res.redirect('/login');
 	}
+	res.render('secret');
 });
 
 app.listen(3000, () => {
