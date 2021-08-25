@@ -53,13 +53,12 @@ app.get('/login', (req, res) => {
 
 app.post('/login', async (req, res) => {
 	const {username, password} = req.body;
-	const user = await User.findOne({username});
+	const foundUser = await User.findAndValidate(username, password);
 	if (!user) {
 		res.redirect('/register');
 	} else {
-		const isMatch = await bcrypt.compare(password, user.hashedPassword);
 		if (isMatch) {
-			req.session.user_id = user._id;
+			req.session.user_id = foundUser._id;
 			res.redirect('/secret');
 			0;
 		} else {
