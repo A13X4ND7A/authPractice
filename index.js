@@ -37,6 +37,25 @@ app.post('/register', async (req, res) => {
 	res.redirect('/');
 });
 
+app.get('/login', (req, res) => {
+	res.render('login');
+});
+
+app.post('/login', async (req, res) => {
+	const {username, password} = req.body;
+	const user = await User.findOne({username});
+	if (!user) {
+		res.redirect('/register');
+	} else {
+		const isMatch = await bcrypt.compare(password, user.hashedPassword);
+		if (isMatch) {
+			res.redirect('/');
+		} else {
+			res.redirect('/login');
+		}
+	}
+});
+
 app.get('/secret', (req, res) => {
 	res.send('THIS IS A SECRET AND YOU CANNOT SEE IT UNLESS YOU ARE LOGGED IN!!');
 });
