@@ -18,6 +18,9 @@
   },
   "homepage": "https://github.com/A13X4ND7A/authPractice#readme",
   "dependencies": {
-    "bcrypt": "^5.0.1"
+    "bcrypt": "^5.0.1",
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "mongoose": "^6.0.0"
   }
 }
